@@ -15,7 +15,7 @@ dirs:
 	mkdir -p ./$(BIN)
 
 game: $(OBJ)
-	$(CC) -o main $^ $(LDFLAGS)
+	$(CC) -o a.out $^ $(LDFLAGS)
 
 %.o: %.c
 	$(CC) -o $@ -c $< $(CFLAGS)
