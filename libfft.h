@@ -1,6 +1,7 @@
 #ifndef LIBFFT_H
 #define LIBFFT_H
+#include <complex.h>
 
-void fft(float *data_re, float *data_im, const unsigned int N);
+void fft(float complex *data, const unsigned int N);
 
 #endif
