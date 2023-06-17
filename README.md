@@ -1,6 +1,6 @@
 # FFT in place
 
-This is an educational project implementing an in-place FFT algorithm for potential embedded applications. The entire library is contained in `fft.h` and `fft.c`.
+This is an educational project implementing an in-place FFT algorithm for potential embedded applications. The entire library is contained in `fft.h` and `fft.c`, the rest is just here for demonstration purposes.
 
 # Fire up the demo
 
