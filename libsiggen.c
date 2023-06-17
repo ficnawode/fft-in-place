@@ -4,8 +4,8 @@ void generate_saw(float *re, float *im, const unsigned int N)
 {
     for (unsigned int i = 0; i < N; i++)
     {
-        re[i] = i;
-        im[i] = -i + N;
+        re[i] = i / (float)N;
+        im[i] = (-i + N) / (float)N;
     }
 }
 
@@ -26,12 +26,16 @@ void generate_triangle(float *re, float *im, const unsigned int N)
         if (i < N_2)
         {
             re[i] = i;
-            im[i] = -i + N_2;
+            im[i] = N_2 - i;
+            re[i] /= (float)N_2;
+            im[i] /= (float)N_2;
         }
         else
         {
-            re[i] = i - N_2;
-            im[i] = -i + N;
+            re[i] = N - i;
+            im[i] = i - N_2;
+            re[i] /= (float)N_2;
+            im[i] /= (float)N_2;
         }
     }
 }
@@ -41,7 +45,7 @@ void generate_sin(float *re, float *im, const unsigned int N)
     for (unsigned int i = 0; i < N; i++)
     {
 
-        float ang = pi * (float)i / (float)N;
+        float ang = 2 * pi * (float)i / (float)N;
         re[i] = sin(ang);
         im[i] = cos(ang);
     }
