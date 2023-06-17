@@ -1,34 +1,48 @@
 #include <stdio.h>
+#include <string.h>
 #include "libfft.h"
+#include "libsiggen.h"
 
-#define MAX_N 2048
+static void __write_complex_to_file(const float *re, const float *im, const unsigned int N, const char *filename)
+{
+    FILE *fp = fopen(filename, "w");
+    fprintf(fp, "re,im\n");
+    for (unsigned int i = 0; i < N; i++)
+    {
+        fprintf(fp, "%f, %f\n", re[i], im[i]);
+    }
+    fclose(fp);
+}
+
+static void __run_fft(float *re, float *im, const unsigned int N, const char *name)
+{
+    char filenamebuffer[50];
+    sprintf(filenamebuffer, "%s_original.csv", name);
+    __write_complex_to_file(re, im, N, filenamebuffer);
+
+    fft(re, im, N);
+
+    sprintf(filenamebuffer, "%s.csv", name);
+    __write_complex_to_file(re, im, N, filenamebuffer);
+}
 
 int main()
 {
-    float x_re[MAX_N];
-    float x_im[MAX_N];
-    float x_re_original[MAX_N];
-    float x_im_original[MAX_N];
-    for (int i = 0; i < MAX_N; i++)
-    {
-        x_re[i] = i % (MAX_N / 2);
-        x_im[i] = i % (MAX_N / 2);
-        x_re_original[i] = x_re[i];
-        x_im_original[i] = x_im[i];
-    }
+    const unsigned int MAX_N = 1024;
+    float re[MAX_N];
+    float im[MAX_N];
 
-    fft(x_re, x_im, MAX_N);
-    FILE *x_fp = fopen("x.csv", "w");
-    FILE *x_orig_fp = fopen("x_original.csv", "w");
-    fprintf(x_fp, "re, im\n");
-    fprintf(x_orig_fp, "re, im\n");
+    generate_saw(re, im, MAX_N);
+    __run_fft(re, im, MAX_N, "saw");
 
-    for (int i = 0; i < MAX_N; i++)
-    {
-        fprintf(x_fp, "%f, %f\n", x_re[i], x_im[i]);
-        fprintf(x_orig_fp, "%f, %f\n", x_re_original[i], x_im_original[i]);
-    }
-    fclose(x_fp);
-    fclose(x_orig_fp);
+    generate_square(re, im, MAX_N);
+    __run_fft(re, im, MAX_N, "square");
+
+    generate_triangle(re, im, MAX_N);
+    __run_fft(re, im, MAX_N, "triangle");
+
+    generate_sin(re, im, MAX_N);
+    __run_fft(re, im, MAX_N, "sin");
+
     return 0;
 }
