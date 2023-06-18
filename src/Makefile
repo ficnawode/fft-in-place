@@ -21,4 +21,4 @@ game: $(OBJ)
 	$(CC) -o $@ -c $< $(CFLAGS)
 
 clean:
-	rm -rf $(OBJ) main
+	rm -rf $(OBJ) a.out *.csv *.jpg

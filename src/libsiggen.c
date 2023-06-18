@@ -14,8 +14,14 @@ void generate_square(float complex *buffer, const uint16_t N)
     const uint16_t N_2 = N / 2;
     for (uint16_t i = 0; i < N; i++)
     {
-        buffer[i] = i + I * (N_2 - i);
-        buffer[i] /= (float)N_2;
+        if (i < N_2)
+        {
+            buffer[i] = 1.0 + I * 0.0;
+        }
+        else
+        {
+            buffer[i] = 0.0 + I * 1.0;
+        }
     }
 }
 
